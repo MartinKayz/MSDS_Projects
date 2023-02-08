@@ -9,4 +9,6 @@ class District:
         self.num_of_death = num_of_deaths
 
     
+    def __repr__(self):
+        return [num_of_comfirmed_cases, num_of_hospitalizations, num_of_deaths]
     
