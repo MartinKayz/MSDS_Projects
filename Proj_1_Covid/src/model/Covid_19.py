@@ -5,84 +5,105 @@ sys.path.append("../model/")
 from district import District
 import pandas as pd
 
+
 class COVID19Uganda:
-    # district_data = District(district_name="Mukono", num_of_confirmed_cases=0, num_of_hospitalizations=0, num_of_deaths=0)
-    
-    def __init__(self):
-        print("Initializing the data")
-        # self.districts = []
-        
+    def _init_(self):
+        self.districts = []
 
-
-    def add_district(self, district_name, num_of_confirmed_cases, num_of_hospitalizations, num_of_deaths):
+    def add_district(self, district):
         """This method adds a new district to the data set"""
-        # self.districts.append(district_name)
-        district_data = District(district_name,num_of_confirmed_cases, num_of_hospitalizations, num_of_deaths)
-        print(district_data)
-        header_written = False
+        self.districts.append(district)
+        with open("district_data.csv", "a", newline="") as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow([district.name, district.confirmed_cases, district.hospitalizations, district.deaths])
 
-        data = [district_data]
-
-        with open('covid.csv', 'a', newline='') as file:
-            writer = csv.DictWriter(file, fieldnames=['district_name', 'num_of_confirmed_cases', 'num_of_hospitalizations', 'num_of_deaths'])
-            for row in data:
-                if not header_written:
-                    writer.writeheader()
-                    header_written = True
-                writer.writerow(row)
-        
-        
-        
-
-    def retrieve_district_cases(self, district_name):
+    def get_district_info(self, name):
         """
         This method retrieves the number of confirmed cases, hospitalizations, and
         deaths for a specific district
         """
-        for district in self.districts:
-            if district.district_name == district_name:
-                return district
-        return None
-        
+        with open("district_data.csv", "r") as csvfile:
+            reader = csv.reader(csvfile)
+            for row in reader:
+                if row[0] == name:
+                    return District(row[0], int(row[1]), int(row[2]), int(row[3]))
+            return None
 
-    def retrieve_total_cases(self, confirmed_cases_total, hospitalizations_total, deaths_total):
+    def get_total_cases(self):
         """
         This method retrieves the total number of confirmed cases, hospitalizations,
         and deaths for all districts
         """
-        confirmed_cases_total = 0
-        hospitalizations_total = 0
-        deaths_total = 0
-        for district in self.districts:
-            confirmed_cases_total += district.num_of_comfirmed_cases
-            hospitalizations_total += district.num_of_hospitalizations
-            deaths_total += district.num_of_deaths
-        return confirmed_cases_total, hospitalizations_total, deaths_total
+        total_cases = 0
+        total_hospitalizations = 0
+        total_deaths = 0
+        with open("district_data.csv", "r") as f:
+            reader = csv.reader(f)
+            header = next(reader)  # skip the header row
+            if header != ["District Name", "Confirmed Cases", "Hospitalizations", "Deaths"]:
+                raise ValueError("The header in the csv file is invalid")
+            for row in reader:
+                total_cases += int(row[1])
+                total_hospitalizations += int(row[2])
+                total_deaths += int(row[3])
+        return total_cases, total_hospitalizations, total_deaths
 
-    def retrieve_average_cases(self, confirmed_cases, hospitalizations, deaths):
+    def get_total_hospitalizations(self):
+        total = 0
+        with open("district_data.csv", "r") as csvfile:
+            reader = csv.reader(csvfile)
+            for row in reader:
+                total += int(row[2])
+        return total
+
+    def get_total_deaths(self):
+        total = 0
+        with open("district_data.csv", "r") as csvfile:
+            reader = csv.reader(csvfile)
+            for row in reader:
+                total += int(row[3])
+        return total
+
+    def get_average_cases(self):
         """
         This method retrieves the average number of confirmed cases, hospitalizations,
         and deaths for all districts
         """
-        confirmed_cases_total, hospitalizations_total, deaths_total = self.retrieve_total_cases()
-        return confirmed_cases_total/len(self.districts), hospitalizations_total/len(self.districts), deaths_total/len(self.districts)
+        total = 0
+        count = 0
+        with open("district_data.csv", "r") as csvfile:
+            reader = csv.reader(csvfile)
+            for row in reader:
+                total += int(row[1])
+                count += 1
+        return total / count if count != 0 else 0
 
+    def get_average_hospitalizations(self):
+        total = 0
+        count = 0
+        with open("district_data.csv", "r") as csvfile:
+            reader = csv.reader(csvfile)
+            for row in reader:
+                total += int(row[2])
+                count += 1
+        return total / count if count != 0 else 0
 
-    def visualize_data(self):
-        """ This method visualizes our data from the data set """
-        confirmed_cases = [district.confirmed_cases for district in self.districts]
-        hospitalizations = [district.hospitalizations for district in self.districts]
-        deaths = [district.deaths for district in self.districts]
+    def get_average_deaths(self):
+        total = 0
+        count = 0
+        with open("district_data.csv", "r") as csvfile:
+            reader = csv.reader(csvfile)
+            for row in reader:
+                total += int(row[3])
+                count += 1
+        return total / count if count != 0 else 0
 
-        district_names = [district.district_name for district in self.districts]
-
-        fig, ax = plt.subplots()
-        ax.bar(district_names, confirmed_cases, label="Confirmed Cases")
-        ax.bar(district_names, hospitalizations, label="Hospitalizations")
-        ax.bar(district_names, deaths, label="Deaths")
-
-        ax.legend()
-        plt.show()
+    def read_districts_from_csv(self):
+        with open("district_data.csv", "r") as csvfile:
+            reader = csv.reader(csvfile)
+            for row in reader:
+                district = District(row[0], int(row[1]), int(row[2]), int(row[3]))
+                self.districts.append(district)
 
 
 

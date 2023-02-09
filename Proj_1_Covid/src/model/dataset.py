@@ -4,18 +4,18 @@ from district import District
 from Covid_19 import add_district
 import pandas as pd
 
-# Create an empty DataFrame
+# # Create an empty DataFrame
 
-data = {}
-df = pd.DataFrame(columns=['district_name','num_of_confirmed_cases', 'num_of_hospitalizations', 'num_of_deaths' ])
-data['district_name'] = district_name
-data['num_of_confirmed_cases'] = num_of_confirmed_cases
-data['num_of_hospitalizations'] = num_of_hospitalizations
-data['num_of_deaths'] = num_of_deaths
+# data = {}
+# df = pd.DataFrame(columns=['district_name','num_of_confirmed_cases', 'num_of_hospitalizations', 'num_of_deaths' ])
+# data['district_name'] = district_name
+# data['num_of_confirmed_cases'] = num_of_confirmed_cases
+# data['num_of_hospitalizations'] = num_of_hospitalizations
+# data['num_of_deaths'] = num_of_deaths
 
 
-df = df.append(data, ignore_index=True)
-print(df)
+# df = df.append(data, ignore_index=True)
+# print(df)
 
 
     

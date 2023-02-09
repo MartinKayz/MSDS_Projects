@@ -3,12 +3,23 @@ import sys
 
 sys.path.append("../model/")
 
-import district
+from Covid_19 import COVID19Uganda
+import pandas as pd
+import matplotlib.pyplot as plt
 
-class Visuals:
+covid = COVID19Uganda()
+covid.read_districts_from_csv()
 
-    def __init__(self):
-        print("Initializing the visualizations of our data...")
+# Create a pandas DataFrame from the districts data
+# Create a pandas DataFrame from the districts data
+data = {"District": [d.name for d in covid.districts],
+        "Cases": [d.cases for d in covid.districts],
+        "Hospitalizations": [d.hospitalizations for d in covid.districts],
+        "Deaths": [d.deaths for d in covid.districts]}
+df = pd.DataFrame(data)
+
+# Print the DataFrame
+print(df)
 
     
     

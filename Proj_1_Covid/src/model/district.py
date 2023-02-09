@@ -8,19 +8,8 @@ class District:
         self.num_of_hospitalizations = num_of_hospitalizations
         self.num_of_deaths = num_of_deaths
 
-        data = {
-            'district_name': self.district_name,
-            'num_of_confirmed_cases': self.num_of_confirmed_cases,
-            'num_of_hospitalizations': self.num_of_hospitalizations,
-            'num_of_deaths': self.num_of_deaths
-        }
+    def get_info(self):
+        return f"{self.name} has {self.confirmed_cases} confirmed cases, {self.hospitalizations} hospitalizations, and {self.deaths} deaths."
     
 
-    def __str__(self):
-        data = {
-            'district_name': self.district_name,
-            'num_of_confirmed_cases': self.num_of_confirmed_cases,
-            'num_of_hospitalizations': self.num_of_hospitalizations,
-            'num_of_deaths': self.num_of_deaths
-        }
-        return str(data)
+    
