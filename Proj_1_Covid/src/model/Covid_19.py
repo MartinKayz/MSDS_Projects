@@ -18,23 +18,22 @@ class COVID19Uganda:
         """This method adds a new district to the data set"""
         # self.districts.append(district_name)
         district_data = District(district_name,num_of_confirmed_cases, num_of_hospitalizations, num_of_deaths)
-        
-        # data_df = {}
-        # for attr in ['district_name', 'num_of_confirmed_cases', 'num_of_hospitalizations', 'num_of_deaths']:
-        #     data_df[attr] = getattr(district_data, attr)
-        # print(data_df)
+        print(district_data)
+        header_written = False
 
-        # with open('covid.csv', 'a', newline='') as file:
-        #     writer = csv.DictWriter(file, fieldnames=['district_name', 'num_of_confirmed_cases', 'num_of_hospitalizations', 'num_of_deaths'])
-        #     writer.writeheader()
-        #     for row in zip(data_df.values()):
-        #         writer.writerow(dict(zip(data_df.keys(), row)))
-        
+        data = [district_data]
+
+        with open('covid.csv', 'a', newline='') as file:
+            writer = csv.DictWriter(file, fieldnames=['district_name', 'num_of_confirmed_cases', 'num_of_hospitalizations', 'num_of_deaths'])
+            for row in data:
+                if not header_written:
+                    writer.writeheader()
+                    header_written = True
+                writer.writerow(row)
         
         
         
 
-    
     def retrieve_district_cases(self, district_name):
         """
         This method retrieves the number of confirmed cases, hospitalizations, and
