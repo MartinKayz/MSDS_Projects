@@ -1,6 +1,5 @@
-district_name,num_of_confirmed_cases,num_of_hospitalizations,num_of_deaths
-kampala,,,
-14,,,
-7,,,
-3,,,
-district_name,num_of_confirmed_cases,num_of_hospitalizations,num_of_deaths
+District_Name,Confirmed Cases,Hospitalizations,Deaths
+Mukono,21,12,2
+Mukono,12,5,3
+Jinja,30,15,6
+KANUNGU,44,28,12
